@@ -11,11 +11,11 @@ var wikiRouter = require('./routes/wiki');
 
 var app = express();
 
-var mongoose = require('mongoose');
-var mongoDB = 'mongodb+srv://<username>:<password>@cluster0.gvc0m.mongodb.net/local_library?retryWrites=true&w=majority'
-mongoose.connect(mongoDB, {usenewUrlParser: true, useUnifiedTopology: true});
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+// var mongoose = require('mongoose');
+// var mongoDB = 'mongodb+srv://<username>:<password>@cluster0.gvc0m.mongodb.net/local_library?retryWrites=true&w=majority'
+// mongoose.connect(mongoDB, {usenewUrlParser: true, useUnifiedTopology: true});
+// var db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
