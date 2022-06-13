@@ -16,7 +16,13 @@ AuthorSchema.virtual('name').get(function () {
       fullname = this.family_name + ', ' + this.first_name;
    }
    if (!this.first_name || !this.family_name) {
-      fullname = '';
+      if (this.first_name) {
+         fullname = this.first_name;
+      } else if (this.family_name) {
+         fullname = this.family_name;
+      } else {
+         fullname = '';
+      }
    }
    return fullname;
 });
@@ -25,16 +31,24 @@ AuthorSchema.virtual('url').get(function () {
    return '/catalog/author/' + this._id;
 });
 
-AuthorSchema.virtual('date_of_birth_formatted').get(function () {
-   return this.date_of_birth ? DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED) : '';
+AuthorSchema.virtual('date_of_birth_yyyy_mm_dd').get(function() {
+   return DateTime.fromJSDate(this.date_of_birth).toISODate();
 });
 
-AuthorSchema.virtual('date_of_death_formatted').get(function () {
-   return this.date_of_death ? DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED) : '';
+AuthorSchema.virtual('date_of_death_yyyy_mm_dd').get(function() {
+   return DateTime.fromJSDate(this.date_of_death).toISODate();
 });
 
 AuthorSchema.virtual('lifespan').get(function () {
-   return this.date_of_birth_formatted + ' - ' + this.date_of_death_formatted;
+   var lifetime_string = '';
+   if (this.date_of_birth) {
+      lifetime_string = DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED);
+   }
+   lifetime_string += ' - ';
+   if (this.date_of_death) {
+      lifetime_string += DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED)
+   }
+   return lifetime_string;
 });
 
 module.exports = mongoose.model('Author', AuthorSchema);
