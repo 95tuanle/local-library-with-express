@@ -5,21 +5,21 @@ block content
     h1 Author: #{author.name}
     p #{author.lifespan}
 
-    div(style='margin-left: 20px;margin-top: 20px')
+    div(style='margin-left:20px;margin-top:20px')
 
         h4 Books
 
         dl
-            each book in author_books
-                dt
-                    a(href=book.url) #{book.title}
-                dd #{book.summary}
+        each book in author_books
+            dt
+                a(href=book.url) #{book.title}
+            dd #{book.summary}
 
-            else
-                p This author has no books.
+        else
+            p This author has no books.
 
     hr
     p
-        a(href=author.url+'/delete') Delete Author
+        a(href=author.url+'/delete') Delete author
     p
-        a(href=author.url+'/update') Update Author
+        a(href=author.url+'/update') Update author
