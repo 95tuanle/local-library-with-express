@@ -1,11 +1,11 @@
 const Author = require("../models/author");
 const Book = require("../models/book");
 
-const { body, validationResult } = require("express-validator");
+const {body, validationResult} = require("express-validator");
 const asyncHandler = require("express-async-handler");
 
 exports.author_list = asyncHandler(async (req, res) => {
-    const allAuthors = await Author.find().sort({ family_name: 1 }).exec();
+    const allAuthors = await Author.find().sort({family_name: 1}).exec();
     res.render("author_list", {
         title: "Author List",
         author_list: allAuthors,
@@ -15,7 +15,7 @@ exports.author_list = asyncHandler(async (req, res) => {
 exports.author_detail = asyncHandler(async (req, res, next) => {
     const [author, allBooksByAuthor] = await Promise.all([
         Author.findById(req.params.id).exec(),
-        Book.find({ author: req.params.id }, "title summary").exec(),
+        Book.find({author: req.params.id}, "title summary").exec(),
     ]);
     if (author === null) {
         const err = new Error("Author not found");
@@ -30,30 +30,30 @@ exports.author_detail = asyncHandler(async (req, res, next) => {
 });
 
 exports.author_create_get = (req, res) => {
-    res.render("author_form", { title: "Create Author" });
+    res.render("author_form", {title: "Create Author"});
 };
 
 exports.author_create_post = [
     body("first_name")
         .trim()
-        .isLength({ min: 1 })
+        .isLength({min: 1})
         .escape()
         .withMessage("First name must be specified.")
         .isAlphanumeric()
         .withMessage("First name has non-alphanumeric characters."),
     body("family_name")
         .trim()
-        .isLength({ min: 1 })
+        .isLength({min: 1})
         .escape()
         .withMessage("Family name must be specified.")
         .isAlphanumeric()
         .withMessage("Family name has non-alphanumeric characters."),
     body("date_of_birth", "Invalid date of birth")
-        .optional({ values: "falsy" })
+        .optional({values: "falsy"})
         .isISO8601()
         .toDate(),
     body("date_of_death", "Invalid date of death")
-        .optional({ values: "falsy" })
+        .optional({values: "falsy"})
         .isISO8601()
         .toDate(),
 
@@ -81,7 +81,7 @@ exports.author_create_post = [
 exports.author_delete_get = asyncHandler(async (req, res) => {
     const [author, allBooksByAuthor] = await Promise.all([
         Author.findById(req.params.id).exec(),
-        Book.find({ author: req.params.id }, "title summary").exec(),
+        Book.find({author: req.params.id}, "title summary").exec(),
     ]);
 
     if (author === null) {
@@ -98,7 +98,7 @@ exports.author_delete_get = asyncHandler(async (req, res) => {
 exports.author_delete_post = asyncHandler(async (req, res) => {
     const [author, allBooksByAuthor] = await Promise.all([
         Author.findById(req.params.id).exec(),
-        Book.find({ author: req.params.id }, "title summary").exec(),
+        Book.find({author: req.params.id}, "title summary").exec(),
     ]);
 
     if (allBooksByAuthor.length > 0) {
@@ -122,30 +122,30 @@ exports.author_update_get = asyncHandler(async (req, res, next) => {
         return next(err);
     }
 
-    res.render("author_form", { title: "Update Author", author: author });
+    res.render("author_form", {title: "Update Author", author: author});
 });
 
 exports.author_update_post = [
     body("first_name")
         .trim()
-        .isLength({ min: 1 })
+        .isLength({min: 1})
         .escape()
         .withMessage("First name must be specified.")
         .isAlphanumeric()
         .withMessage("First name has non-alphanumeric characters."),
     body("family_name")
         .trim()
-        .isLength({ min: 1 })
+        .isLength({min: 1})
         .escape()
         .withMessage("Family name must be specified.")
         .isAlphanumeric()
         .withMessage("Family name has non-alphanumeric characters."),
     body("date_of_birth", "Invalid date of birth")
-        .optional({ values: "falsy" })
+        .optional({values: "falsy"})
         .isISO8601()
         .toDate(),
     body("date_of_death", "Invalid date of death")
-        .optional({ values: "falsy" })
+        .optional({values: "falsy"})
         .isISO8601()
         .toDate(),
     asyncHandler(async (req, res) => {

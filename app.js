@@ -17,6 +17,7 @@ set("strictQuery", false);
 
 const mongoDB = process.env.MONGODB_URI;
 main().catch((err) => console.log(err));
+
 async function main() {
     await connect(mongoDB);
 }
@@ -26,7 +27,7 @@ app.set("view engine", "pug");
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 
 app.use(

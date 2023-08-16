@@ -3,7 +3,7 @@ const Author = require("../models/author");
 const Genre = require("../models/genre");
 const BookInstance = require("../models/bookinstance");
 
-const { body, validationResult } = require("express-validator");
+const {body, validationResult} = require("express-validator");
 const asyncHandler = require("express-async-handler");
 
 exports.index = asyncHandler(async (req, res) => {
@@ -16,7 +16,7 @@ exports.index = asyncHandler(async (req, res) => {
     ] = await Promise.all([
         Book.countDocuments({}).exec(),
         BookInstance.countDocuments({}).exec(),
-        BookInstance.countDocuments({ status: "Available" }).exec(),
+        BookInstance.countDocuments({status: "Available"}).exec(),
         Author.countDocuments({}).exec(),
         Author.countDocuments({}).exec(),
     ]);
@@ -32,16 +32,16 @@ exports.index = asyncHandler(async (req, res) => {
 
 exports.book_list = asyncHandler(async (req, res) => {
     const allBooks = await Book.find({}, "title author")
-        .sort({ title: 1 })
+        .sort({title: 1})
         .populate("author")
         .exec();
-    res.render("book_list", { title: "Book List", book_list: allBooks });
+    res.render("book_list", {title: "Book List", book_list: allBooks});
 });
 
 exports.book_detail = asyncHandler(async (req, res, next) => {
     const [book, bookInstances] = await Promise.all([
         Book.findById(req.params.id).populate("author").populate("genre").exec(),
-        BookInstance.find({ book: req.params.id }).exec(),
+        BookInstance.find({book: req.params.id}).exec(),
     ]);
     if (book === null) {
         const err = new Error("Book not found");
@@ -77,17 +77,17 @@ exports.book_create_post = [
     },
     body("title", "Title must not be empty.")
         .trim()
-        .isLength({ min: 1 })
+        .isLength({min: 1})
         .escape(),
     body("author", "Author must not be empty.")
         .trim()
-        .isLength({ min: 1 })
+        .isLength({min: 1})
         .escape(),
     body("summary", "Summary must not be empty.")
         .trim()
-        .isLength({ min: 1 })
+        .isLength({min: 1})
         .escape(),
-    body("isbn", "ISBN must not be empty").trim().isLength({ min: 1 }).escape(),
+    body("isbn", "ISBN must not be empty").trim().isLength({min: 1}).escape(),
     body("genre.*").escape(),
     asyncHandler(async (req, res) => {
         const errors = validationResult(req);
@@ -126,7 +126,7 @@ exports.book_create_post = [
 exports.book_delete_get = asyncHandler(async (req, res) => {
     const [book, bookInstances] = await Promise.all([
         Book.findById(req.params.id).populate("author").populate("genre").exec(),
-        BookInstance.find({ book: req.params.id }).exec(),
+        BookInstance.find({book: req.params.id}).exec(),
     ]);
     if (book === null) {
         res.redirect("/catalog/books");
@@ -141,7 +141,7 @@ exports.book_delete_get = asyncHandler(async (req, res) => {
 exports.book_delete_post = asyncHandler(async (req, res) => {
     const [book, bookInstances] = await Promise.all([
         Book.findById(req.params.id).populate("author").populate("genre").exec(),
-        BookInstance.find({ book: req.params.id }).exec(),
+        BookInstance.find({book: req.params.id}).exec(),
     ]);
     if (book === null) {
         res.redirect("/catalog/books");
@@ -198,17 +198,17 @@ exports.book_update_post = [
     },
     body("title", "Title must not be empty.")
         .trim()
-        .isLength({ min: 1 })
+        .isLength({min: 1})
         .escape(),
     body("author", "Author must not be empty.")
         .trim()
-        .isLength({ min: 1 })
+        .isLength({min: 1})
         .escape(),
     body("summary", "Summary must not be empty.")
         .trim()
-        .isLength({ min: 1 })
+        .isLength({min: 1})
         .escape(),
-    body("isbn", "ISBN must not be empty").trim().isLength({ min: 1 }).escape(),
+    body("isbn", "ISBN must not be empty").trim().isLength({min: 1}).escape(),
     body("genre.*").escape(),
     asyncHandler(async (req, res) => {
         const errors = validationResult(req);

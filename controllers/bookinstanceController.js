@@ -1,7 +1,7 @@
 const BookInstance = require("../models/bookinstance");
 const Book = require("../models/book");
 
-const { body, validationResult } = require("express-validator");
+const {body, validationResult} = require("express-validator");
 const asyncHandler = require("express-async-handler");
 
 exports.bookinstance_list = asyncHandler(async (req, res) => {
@@ -36,14 +36,14 @@ exports.bookinstance_create_get = asyncHandler(async (req, res) => {
 });
 
 exports.bookinstance_create_post = [
-    body("book", "Book must be specified").trim().isLength({ min: 1 }).escape(),
+    body("book", "Book must be specified").trim().isLength({min: 1}).escape(),
     body("imprint", "Imprint must be specified")
         .trim()
-        .isLength({ min: 1 })
+        .isLength({min: 1})
         .escape(),
     body("status").escape(),
     body("due_back", "Invalid date")
-        .optional({ values: "falsy" })
+        .optional({values: "falsy"})
         .isISO8601()
         .toDate(),
     asyncHandler(async (req, res) => {
@@ -108,14 +108,14 @@ exports.bookinstance_update_get = asyncHandler(async (req, res, next) => {
 });
 
 exports.bookinstance_update_post = [
-    body("book", "Book must be specified").trim().isLength({ min: 1 }).escape(),
+    body("book", "Book must be specified").trim().isLength({min: 1}).escape(),
     body("imprint", "Imprint must be specified")
         .trim()
-        .isLength({ min: 1 })
+        .isLength({min: 1})
         .escape(),
     body("status").escape(),
     body("due_back", "Invalid date")
-        .optional({ values: "falsy" })
+        .optional({values: "falsy"})
         .isISO8601()
         .toDate(),
     asyncHandler(async (req, res) => {
